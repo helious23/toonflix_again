@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 80),
                 Text(
                   'Total Balance',
                   style: TextStyle(
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
                     letterSpacing: -1.5,
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -107,33 +107,30 @@ class MyApp extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 const CurrencyCard(
                   name: "Euro",
                   code: "EUR",
                   amount: "6 428",
                   icon: Icons.euro_sharp,
                   isInverted: false,
+                  index: 0,
                 ),
-                Transform.translate(
-                  offset: const Offset(0, -20),
-                  child: const CurrencyCard(
-                    name: "Bitcoin",
-                    code: "BTC",
-                    amount: "2.342",
-                    icon: Icons.currency_bitcoin,
-                    isInverted: true,
-                  ),
+                const CurrencyCard(
+                  name: "Bitcoin",
+                  code: "BTC",
+                  amount: "2.342",
+                  icon: Icons.currency_bitcoin,
+                  isInverted: true,
+                  index: 1,
                 ),
-                Transform.translate(
-                  offset: const Offset(0, -50),
-                  child: const CurrencyCard(
-                    name: "Dollar",
-                    code: "USD",
-                    amount: "1 000",
-                    icon: Icons.attach_money_outlined,
-                    isInverted: false,
-                  ),
+                const CurrencyCard(
+                  name: "Dollar",
+                  code: "USD",
+                  amount: "1 000",
+                  icon: Icons.attach_money_outlined,
+                  isInverted: false,
+                  index: 2,
                 ),
               ],
             ),
