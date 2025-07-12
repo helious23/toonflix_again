@@ -21,20 +21,23 @@ class Webtoon extends StatelessWidget {
               ),
             );
           },
-          child: Container(
-            width: 250,
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 10,
-                  offset: const Offset(0, 5),
-                ),
-              ],
+          child: Hero(
+            tag: webtoon.id,
+            child: Container(
+              width: 250,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Image.network(webtoon.thumb, fit: BoxFit.cover),
             ),
-            child: Image.network(webtoon.thumb, fit: BoxFit.cover),
           ),
         ),
         const SizedBox(height: 10),
