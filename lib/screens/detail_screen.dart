@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/models/webtoon_model.dart';
+import 'package:toonflix/models/webtoon_episode_model.dart';
 import 'package:toonflix/services/api_service.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final WebtoonModel webtoon;
   const DetailScreen({super.key, required this.webtoon});
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  late Future<WebtoonDetailModel> webtoon;
+  late Future<List<WebtoonEpisodeModel>> episodes;
+
+  @override
+  void initState() {
+    super.initState();
+    webtoon = ApiService.getToonById(widget.webtoon.id);
+    episodes = ApiService.getLatestEpisodesById(widget.webtoon.id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          webtoon.title,
+          widget.webtoon.title,
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -25,70 +42,36 @@ class DetailScreen extends StatelessWidget {
         shadowColor: Colors.black,
       ),
       backgroundColor: Colors.white,
-      body: FutureBuilder(
-        future: ApiService.getToonById(webtoon.id),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData) {
-            return const Center(child: Text("No Data Found"));
-          }
-
-          return Column(
+      body: Column(
+        children: [
+          const SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Hero(
-                    tag: webtoon.id,
-                    child: Container(
-                      width: 250,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(
-                              alpha: 0.3,
-                            ),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
+              Hero(
+                tag: widget.webtoon.id,
+                child: Container(
+                  width: 250,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
                       ),
-                      child: Image.network(
-                        webtoon.thumb,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 50),
-              Text(
-                snapshot.data!.title,
-                style: const TextStyle(fontSize: 20),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                snapshot.data!.about,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                snapshot.data!.genre,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                snapshot.data!.age,
-                style: const TextStyle(fontSize: 16),
+                  child: Image.network(
+                    widget.webtoon.thumb,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
   }
